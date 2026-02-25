@@ -1,12 +1,17 @@
 # Deployment Guide - Rival Blog Platform
 
-## Fix for Render Deployment
+---
 
-The error was because the TypeScript wasn't being compiled. I've added a webpack config to fix this.
+## IMPORTANT: Fix Build Command
 
-### Render Build Settings:
-- **Build Command**: `npm install && npm run build`
-- **Start Command**: `node dist/main.js`
+The Render dashboard is using the WRONG build command. You need to manually update it in Render settings.
+
+### Correct Build Command:
+```
+npm install && npm run build
+```
+
+NOT just `npm install && npx prisma generate`
 
 ---
 
@@ -22,6 +27,19 @@ The error was because the TypeScript wasn't being compiled. I've added a webpack
 
 ## Step 2: Deploy Backend (Render)
 
+### Option A: Using Blueprint (Recommended)
+
+1. Go to [Render.com](https://render.com)
+2. Click "New" → "Blueprint"
+3. Connect your GitHub repo `Krud-x/Rival_bl`
+4. Select the `backend/render.yaml` file
+5. Add your environment variables:
+   - `DATABASE_URL` = your Neon connection string
+   - `JWT_SECRET` = generate a random string
+6. Create the blueprint
+
+### Option B: Manual Setup
+
 1. Go to [Render.com](https://render.com)
 2. Sign up with GitHub
 3. Click "New" → "Web Service"
@@ -30,7 +48,7 @@ The error was because the TypeScript wasn't being compiled. I've added a webpack
 6. Configure:
    - Name: `rival-blog-backend`
    - Environment: `Node`
-   - **Build Command**: `npm install && npm run build`
+   - **Build Command**: `npm install && npm run build`  <-- IMPORTANT!
    - **Start Command**: `node dist/main.js`
 
 7. Add Environment Variables:
@@ -40,7 +58,7 @@ The error was because the TypeScript wasn't being compiled. I've added a webpack
    - `PORT` = 3001
    - `NODE_ENV` = production
 
-8. Deploy!
+8. Click "Clear Build Cache" then "Deploy"!
 
 ---
 
